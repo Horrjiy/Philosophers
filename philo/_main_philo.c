@@ -6,43 +6,21 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:22:54 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/04 18:56:53 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/04/07 15:37:59 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-// debug:
-// #include <stdlib.h>
-
-bool	ft_create_threads(t_data *data, t_list **philos)
+long	ft_ms(struct timeval starttime)
 {
-	int	i;
-	t_list *temp;
+	long			ms;
+	struct timeval	now;
 
-	*philos = ft_init_node(1, data);
-	i = 2;
-	while(i <= data->philnum)
-	{
-		temp = ft_init_node(i, data);
-		if(!temp)
-			return(false);
-		ft_node_addback(philos, temp);
-		i++;
-	}
-	return(true);
-}
-
-void free_list(t_list **philos)
-{
-	t_list	*temp;
-
-	while (*philos)
-	{
-		temp = (*philos)->next;
-		free(*philos);
-		*philos = temp;
-	}
+	gettimeofday(&now, NULL);
+	ms = (now.tv_sec - starttime.tv_sec) * 1000;
+	ms += (now.tv_usec - starttime.tv_usec) / 1000;
+	return (ms);
 }
 
 int	main(int argc, char *argv[])
@@ -50,10 +28,15 @@ int	main(int argc, char *argv[])
 	t_data	data;
 	t_list	*philos;
 
-	if (ft_check_valid_args(argc, argv, &data) == false)
+	if (!ft_check_valid_args(argc, argv, &data))
 		return (ft_input_error(), 1);
-	gettimeofday(&data.starttime, NULL);
-	if (!ft_create_threads(&data, &philos))
-		return (free_list(&philos), 2);
-	return (free_list(&philos),0);
+	gettimeofday(&data.gettime, NULL);
+	if (!ft_create_list(&data, &philos))
+		return (free_list(&philos), 12);
+	if (!ft_init_threads(&data, philos))
+		return (free_list(&philos), 12);
+	// continue
+	// * * * //
+	// end
+	return (free_list(&philos), 0);
 }

@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 17:31:58 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/04 19:03:38 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/04/07 15:26:58 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 t_list	*ft_init_node(int index, t_data *data)
 {
 	t_list	*node;
-	
+
 	node = (t_list *)malloc(sizeof(t_list));
 	if (!node)
 		return (NULL);
-	pthread_mutex_init(&node->fork, NULL);
-	if(!&node->fork)
-		(free(node), NULL);
+	if (pthread_mutex_init(&node->fork, NULL) != 0)
+		return (free(node), NULL);
 	node->next = NULL;
+	node->thread = NULL;
 	node->index = index;
-	node->starttime = data->starttime;
+	node->starttime = ft_ms(data->gettime);
 	node->time_die = data->time_die;
 	node->time_eat = data->time_eat;
 	node->time_sleep = node->time_sleep;
@@ -62,17 +62,21 @@ t_list	*ft_lastnode(t_list *a)
 	return (temp);
 }
 
-//returns the second last node of the linked list
-t_list	*ft_secondlastnode(t_list *a)
+void	free_list(t_list **philos)
 {
 	t_list	*temp;
 
-	temp = a;
-	if (!temp)
-		return (NULL);
-	while (temp->next->next != NULL)
-		temp = temp->next;
-	return (temp);
+	if (!philos || !(*philos))
+		return ;
+	while (*philos)
+	{
+		temp = (*philos)->next;
+		if ((*philos)->thread != NULL)
+			pthread_join((*philos)->thread, NULL);
+		pthread_mutex_destroy(&((*philos)->fork));
+		free(*philos);
+		*philos = temp;
+	}
 }
 
 void	ft_node_addback(t_list **a, t_list *node)
