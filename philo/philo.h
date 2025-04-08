@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:24:25 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/07 15:34:01 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/04/08 18:55:18 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,41 @@
 # include <sys/time.h>
 # include <unistd.h>
 
+# define LEFT 1
+# define RIGHT 0
+
 typedef struct s_list	t_list;
+
+typedef enum e_status
+{
+	DEAD,
+	TAKEF,
+	EAT,
+	SLEEP,
+	THINK
+}						t_status;
 
 typedef struct s_data
 {
-	struct timeval		gettime;
+	pthread_mutex_t		mprint;
+	long				gettime;
 	int					philnum;
 	int					time_die;
 	int					time_eat;
 	int					time_sleep;
 	int					eatnum;
+	struct s_list		*head;
 }						t_data;
 
-long					ft_ms(struct timeval starttime);
+long					ft_ms(long starttime);
+long					ft_now(void);
 void					ft_input_error(void);
 bool					ft_check_valid_args(int argc, char **argv,
 							t_data *data);
 bool					ft_create_list(t_data *data, t_list **philos);
 void					*ft_threadroutine(void *vptr);
-bool					ft_init_threads(t_data *data, t_list *philos);
+bool					ft_init_threads(t_list *philos);
+void					print_s(t_list *philos, int index, int status);
 
 // -~--~--~--~- list -~--~--~--~- //
 
@@ -46,12 +62,16 @@ struct					s_list
 {
 	pthread_t			thread;
 	pthread_mutex_t		fork;
+	pthread_mutex_t		*mprint;
 	long				starttime;
+	int					philnum;
 	int					index;
 	int					time_die;
 	int					time_eat;
 	int					time_sleep;
+	int					eatnum;
 	struct s_list		*next;
+	struct s_list		*head;
 };
 
 t_list					*ft_init_node(int index, t_data *data);

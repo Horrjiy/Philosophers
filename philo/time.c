@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _main_philo.c                                      :+:      :+:    :+:   */
+/*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/01 17:22:54 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/07 16:51:32 by mpoplow          ###   ########.fr       */
+/*   Created: 2025/04/07 16:51:45 by mpoplow           #+#    #+#             */
+/*   Updated: 2025/04/08 15:03:25 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char *argv[])
+long	ft_now(void)
 {
-	t_data			data;
-	t_list			*philos;
+	long			ms;
+	struct timeval	now;
 
-	if (!ft_check_valid_args(argc, argv, &data))
-		return (ft_input_error(), 1);
-	data.gettime = ft_now();
-	if (!ft_create_list(&data, &philos))
-		return (free_list(&philos), 12);
-	if (!ft_init_threads(philos))
-		return (free_list(&philos), 2);
-	// continue
-	// * * * //
-	// end
-	return (free_list(&philos), 0);
+	gettimeofday(&now, NULL);
+	ms = (now.tv_sec) * 1000;
+	ms += (now.tv_usec) / 1000;
+	return (ms);
+}
+
+long	ft_ms(long starttime)
+{
+	long	now;
+
+	now = ft_now();
+	return (now - starttime);
 }

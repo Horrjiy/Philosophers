@@ -6,7 +6,7 @@
 #    By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/04 17:14:53 by mpoplow           #+#    #+#              #
-#    Updated: 2025/04/07 15:35:02 by mpoplow          ###   ########.fr        #
+#    Updated: 2025/04/08 16:57:19 by mpoplow          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CFLAGS	:= -Wall -Wextra -Werror
 # 	FILES																		#
 # *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*	#
 
-CFILES	:= _main_philo.c argument_validity.c linkedlist.c initialize_program.c threads.c
+CFILES	:= _main_philo.c argument_validity.c linkedlist.c initialize_program.c threads.c time.c print_s.c
 
 OFILES	= $(addprefix O_D_FILES/, $(notdir $(CFILES:.c=.o)))
 DFILES	= $(addprefix O_D_FILES/, $(notdir $(CFILES:.c=.d)))
