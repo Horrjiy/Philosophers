@@ -1,33 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time.c                                             :+:      :+:    :+:   */
+/*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/07 16:51:45 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/10 10:35:42 by mpoplow          ###   ########.fr       */
+/*   Created: 2025/04/09 20:11:17 by mpoplow           #+#    #+#             */
+/*   Updated: 2025/04/10 10:18:44 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long	ft_now(void)
+void	ft_kill_all(t_list *philos)
 {
-	long			ms;
-	struct timeval	now;
-
-	gettimeofday(&now, NULL);
-	ms = (now.tv_sec) * 1000;
-	ms += (now.tv_usec) / 1000;
-	return (ms);
+	while (philos->next)
+	{
+		philos->dead = true;
+		philos = philos->next;
+	}
+	philos->dead = true;
 }
 
-long	ft_ms(long starttime)
+void	*ft_monitorroutine(void *vptr)
 {
-	long	now;
+	t_list	*philos;
 
-	now = ft_now();
-	return (now - starttime);
+	philos = (t_list *)vptr;
+	while (1)
+	{
+		if (philos->dead == true)
+		{
+			ft_kill_all(philos->head);
+			return (NULL);
+		}
+		if (philos->next)
+			philos = philos->next;
+		else
+			philos = philos->head;
+	}
 }
-

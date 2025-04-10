@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:24:25 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/08 18:55:18 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/04/10 10:39:28 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ bool					ft_check_valid_args(int argc, char **argv,
 							t_data *data);
 bool					ft_create_list(t_data *data, t_list **philos);
 void					*ft_threadroutine(void *vptr);
+void					*ft_monitorroutine(void *vptr);
 bool					ft_init_threads(t_list *philos);
 void					print_s(t_list *philos, int index, int status);
 
@@ -70,6 +71,8 @@ struct					s_list
 	int					time_eat;
 	int					time_sleep;
 	int					eatnum;
+	long				last_meal;
+	bool				dead;
 	struct s_list		*next;
 	struct s_list		*head;
 };

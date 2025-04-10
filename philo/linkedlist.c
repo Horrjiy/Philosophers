@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 17:31:58 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/08 18:48:34 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/04/09 20:28:37 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_list	*ft_init_node(int index, t_data *data)
 		return (free(node), NULL);
 	node->next = NULL;
 	node->thread = NULL;
+	node->dead = false;
 	node->philnum = data->philnum;
 	node->index = index;
 	node->starttime = data->gettime;
