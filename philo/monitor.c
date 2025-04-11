@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 20:11:17 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/10 10:18:44 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/04/10 13:40:19 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@ void	*ft_monitorroutine(void *vptr)
 	philos = (t_list *)vptr;
 	while (1)
 	{
+		if (ft_deadcheck(philos) == DEAD)
+		{
+			print_s(philos, DEAD);
+			philos->dead = true;
+		}
 		if (philos->dead == true)
 		{
 			ft_kill_all(philos->head);

@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 17:31:58 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/09 20:28:37 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/04/10 13:22:30 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ t_list	*ft_init_node(int index, t_data *data)
 	node->dead = false;
 	node->philnum = data->philnum;
 	node->index = index;
-	node->starttime = data->gettime;
+	node->starttime = data->gettime ;
+	node->last_meal = data->gettime + 10 ;
 	node->time_die = data->time_die;
 	node->time_eat = data->time_eat;
 	node->time_sleep = node->time_sleep;
