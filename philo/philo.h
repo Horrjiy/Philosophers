@@ -37,6 +37,7 @@ typedef enum e_status
 typedef struct s_data
 {
 	pthread_mutex_t		mprint;
+	pthread_t			monitor;
 	long				gettime;
 	int					philnum;
 	int					time_die;
@@ -54,7 +55,7 @@ bool					ft_check_valid_args(int argc, char **argv,
 bool					ft_create_list(t_data *data, t_list **philos);
 void					*ft_threadroutine(void *vptr);
 void					*ft_monitorroutine(void *vptr);
-bool					ft_init_threads(t_list *philos);
+bool					ft_init_threads(t_data *data, t_list *philos);
 int						ft_deadcheck(t_list *philos);
 void					print_s(t_list *philos, int status);
 
@@ -64,6 +65,7 @@ struct					s_list
 {
 	pthread_t			thread;
 	pthread_mutex_t		fork;
+	pthread_mutex_t		access;
 	pthread_mutex_t		*mprint;
 	long				starttime;
 	int					philnum;

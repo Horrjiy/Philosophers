@@ -25,9 +25,6 @@ long	ft_now(void)
 
 long	ft_ms(long starttime)
 {
-	long	now;
-
-	now = ft_now();
-	return (now - starttime);
+	return (ft_now() - starttime);
 }
 

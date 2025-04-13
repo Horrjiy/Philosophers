@@ -19,24 +19,23 @@ t_list	*ft_init_node(int index, t_data *data)
 	node = (t_list *)malloc(sizeof(t_list));
 	if (!node)
 		return (NULL);
-	if (pthread_mutex_init(&node->fork, NULL) != 0)
+	if (pthread_mutex_init(&node->fork, NULL) != 0) 
+		return (free(node), NULL);
+	if (pthread_mutex_init(&node->access, NULL) != 0)
 		return (free(node), NULL);
 	node->next = NULL;
-	node->thread = NULL;
+	node->thread = 0;
 	node->dead = false;
 	node->philnum = data->philnum;
 	node->index = index;
 	node->starttime = data->gettime ;
-	node->last_meal = data->gettime + 10 ;
+	node->last_meal = data->gettime + 15 ;
 	node->time_die = data->time_die;
 	node->time_eat = data->time_eat;
-	node->time_sleep = node->time_sleep;
+	node->time_sleep = data->time_sleep;
 	node->eatnum = data->eatnum;
 	node->mprint = &(data->mprint);
-	if (data->head)
-		node->head = data->head;
-	else
-		node->head = node;
+	node->head = data->head;
 	return (node);
 }
 
@@ -82,9 +81,10 @@ void	free_list(t_list **philos)
 	while (*philos)
 	{
 		temp = (*philos)->next;
-		if ((*philos)->thread != NULL)
+		if ((*philos)->thread != 0)
 			pthread_join((*philos)->thread, NULL);
 		pthread_mutex_destroy(&((*philos)->fork));
+		pthread_mutex_destroy(&((*philos)->access));
 		free(*philos);
 		*philos = temp;
 	}

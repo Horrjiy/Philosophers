@@ -12,29 +12,35 @@
 
 #include "philo.h"
 
-void	grab_fork(t_list *philos, bool side)
+bool	grab_forks(t_list *philos)
 {
-		if (side == LEFT)
-		{
-			pthread_mutex_lock(&(philos->fork));
-			print_s(philos, TAKEF);
-		}
-		else if (side == RIGHT)
-		{
-			if (philos->next == NULL)
-				pthread_mutex_lock(&(philos->head->fork));
-			else
-				pthread_mutex_lock(&(philos->next->fork));
-			print_s(philos, TAKEF);
-		}
+	pthread_mutex_lock(&(philos->access));
+	if (philos->dead == true)
+		return(pthread_mutex_unlock(&(philos->access)), true);
+	pthread_mutex_lock(&(philos->fork));
+	if (!philos->dead)
+		print_s(philos, TAKEF);
+	while(philos->index == 1 && philos->next == NULL && !philos->dead)
+		usleep(100);
+	if (philos->next == NULL)
+		pthread_mutex_lock(&(philos->head->fork));
+	else
+		pthread_mutex_lock(&(philos->next->fork));
+	if (!philos->dead)
+		print_s(philos, TAKEF);
+	return(pthread_mutex_unlock(&(philos->access)), false);
 }
 
 void	eat_drop_fork(t_list *philos)
 {
+	pthread_mutex_lock(&(philos->access));
 	if (!philos->dead)
 	{
 		print_s(philos, EAT);
+		philos->last_meal = ft_now();
 		usleep(philos->time_eat * 1000);
+		if(philos->eatnum > 0)
+			philos->eatnum--;
 	}
 	pthread_mutex_unlock(&(philos->fork));
 	if (philos->next == NULL)
@@ -46,40 +52,29 @@ void	eat_drop_fork(t_list *philos)
 		print_s(philos, SLEEP);
 		usleep(philos->time_sleep * 1000);
 	}
+	pthread_mutex_unlock(&(philos->access));
 }
 
-int	ft_deadcheck(t_list *philos)
-{
-	if (philos->dead == true)
-		return (0);
-	if ((ft_now() - philos->last_meal) > philos->time_die)
-	{
-		philos->dead = true;
-		return (0);
-	}
-	return (1);
-}
+
 
 void	*ft_threadroutine(void *vptr)
 {
 	t_list	*philos;
 	int		i;
-
 	philos = (t_list *)vptr;
-	while (ft_ms(philos->starttime) < 10)
+	printf("fritt\n");
+	while (ft_ms(philos->starttime) < 15)
 		usleep(100);
 	i = 0;
+	usleep((philos->index % 2) * 500);
 	while (1)
 	{
-		if (ft_deadcheck(philos) == DEAD)
-			return (print_s(philos, DEAD), NULL);
 		if (philos->index % 2 == i)
 		{
-			grab_fork(philos, LEFT);
-			grab_fork(philos, RIGHT);
+			philos->dead = grab_forks(philos);	
+			if(philos->dead == true)
+				return(NULL);
 			eat_drop_fork(philos);
-			if (ft_deadcheck(philos) == DEAD)
-				return (NULL);
 		}
 		else
 			print_s(philos, THINK);

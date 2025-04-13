@@ -14,21 +14,21 @@
 
 void	print_s(t_list *philos, int status)
 {
-	long	time;
 	int		index;
 
 	index = philos->index;
 	pthread_mutex_lock(philos->mprint);
-	time = ft_ms(philos->starttime) - 10;
+	pthread_mutex_lock(&(philos->access));
 	if (status == TAKEF)
-		printf("%ldms %d has taken a fork\n", time, index);
+		printf("%ldms %d has taken a fork\n", ft_ms(philos->starttime) - 15, index);
 	else if (status == EAT)
-		printf("%ldms %d is eating\n", time, index);
+		printf("%ldms %d is eating\n", ft_ms(philos->starttime) - 15, index);
 	else if (status == SLEEP)
-		printf("%ldms %d is sleeping\n", time, index);
+		printf("%ldms %d is sleeping\n", ft_ms(philos->starttime) - 15, index);
 	else if (status == THINK)
-		printf("%ldms %d is thinking\n", time, index);
+		printf("%ldms %d is thinking\n", ft_ms(philos->starttime) - 15, index);
 	else if (status == DEAD)
-		printf("%ldms %d died\n", time, index);
+		printf("%ldms %d died\n", ft_ms(philos->starttime) - 15, index);
 	pthread_mutex_unlock(philos->mprint);
+	pthread_mutex_unlock(&(philos->access));
 }

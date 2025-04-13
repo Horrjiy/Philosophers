@@ -22,11 +22,38 @@ void	ft_kill_all(t_list *philos)
 	philos->dead = true;
 }
 
+bool all_eaten_up(t_list *head)
+{
+	t_list *temp;
+	temp = head;
+	while(temp)
+	{
+		if(temp->eatnum != 0)
+			return(false);
+		temp = temp->next;
+	}
+	return (true);
+}
+
+int	ft_deadcheck(t_list *philos)
+{
+	pthread_mutex_lock(&(philos->access));
+	if (philos->dead == true)
+		return (pthread_mutex_unlock(&(philos->access)), 0);
+	if ((ft_now() - philos->last_meal) > philos->time_die)
+	{
+		philos->dead = true;
+		return (pthread_mutex_unlock(&(philos->access)), 0);
+	}
+	return (pthread_mutex_unlock(&(philos->access)), 1);
+}
+
 void	*ft_monitorroutine(void *vptr)
 {
-	t_list	*philos;
+	t_list	*philos	;
 
 	philos = (t_list *)vptr;
+	printf("frutt\n");
 	while (1)
 	{
 		if (ft_deadcheck(philos) == DEAD)
@@ -38,6 +65,11 @@ void	*ft_monitorroutine(void *vptr)
 		{
 			ft_kill_all(philos->head);
 			return (NULL);
+		}
+		if(all_eaten_up(philos->head) == true)
+		{
+			ft_kill_all(philos->head);
+			return(NULL);
 		}
 		if (philos->next)
 			philos = philos->next;

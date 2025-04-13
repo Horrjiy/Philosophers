@@ -21,9 +21,12 @@ bool	ft_create_list(t_data *data, t_list **philos)
 	return (false);
 	data->head = NULL;
 	*philos = ft_init_node(1, data);
-	i = 2;
+	if (!(*philos))
+		return (false);
+	(*philos)->head = *philos;
 	data->head = *philos;
-	while (i <= data->philnum + 1)
+	i = 2;
+	while (i <= data->philnum)
 	{
 		temp = ft_init_node(i, data);
 		if (!temp)
@@ -34,19 +37,19 @@ bool	ft_create_list(t_data *data, t_list **philos)
 	return (true);
 }
 
-bool	ft_init_threads(t_list *philos)
+bool	ft_init_threads(t_data *data, t_list *philos)
 {
 	t_list	*temp;
-	pthread_t monitor;
 
-	temp = philos;
-	while (temp->next)
+	temp = philos->head;
+	while (temp)
 	{
 		if (pthread_create(&temp->thread, NULL, ft_threadroutine, temp) != 0)
 			return (free_list(&philos), false);
 		temp = temp->next;
 	}
-	if (pthread_create(&monitor, NULL, ft_monitorroutine, philos) != 0)
+	printf("shit\n");
+	if (pthread_create(&(data->monitor), NULL, ft_monitorroutine, philos) != 0)
 			return (free_list(&philos), false);
 	return (true);
 }

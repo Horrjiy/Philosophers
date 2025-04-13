@@ -22,10 +22,9 @@ int	main(int argc, char *argv[])
 	data.gettime = ft_now();
 	if (!ft_create_list(&data, &philos))
 		return (free_list(&philos), 12);
-	if (!ft_init_threads(philos))
+	if (!ft_init_threads(&data, philos))
 		return (free_list(&philos), 2);
-	// continue
-	// * * * //
-	// end
-	return (free_list(&philos), 0);
+	free_list(&philos);
+	pthread_join(data.monitor, NULL);
+	return (0);
 }
