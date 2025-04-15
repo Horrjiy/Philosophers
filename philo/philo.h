@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:24:25 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/10 13:34:38 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/04/14 16:43:19 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_data
 
 long					ft_ms(long starttime);
 long					ft_now(void);
+bool					ft_sleep(t_list *philos, long time_ms);
 void					ft_input_error(void);
 bool					ft_check_valid_args(int argc, char **argv,
 							t_data *data);
@@ -58,6 +59,7 @@ void					*ft_monitorroutine(void *vptr);
 bool					ft_init_threads(t_data *data, t_list *philos);
 int						ft_deadcheck(t_list *philos);
 void					print_s(t_list *philos, int status);
+void					print_lock(t_list *philos, char *str);
 
 // -~--~--~--~- list -~--~--~--~- //
 

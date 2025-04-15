@@ -6,13 +6,14 @@
 #    By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/04 17:14:53 by mpoplow           #+#    #+#              #
-#    Updated: 2025/04/09 20:29:35 by mpoplow          ###   ########.fr        #
+#    Updated: 2025/04/14 17:37:58 by mpoplow          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	:= philo
 
-CFLAGS	:= -Wall -Wextra -Werror
+CFLAGS	:= -Wall -Wextra -Werror 
+#-lpthread
 
 # *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*	#
 # 	FILES																		#
@@ -31,7 +32,7 @@ DFILES	= $(addprefix O_D_FILES/, $(notdir $(CFILES:.c=.d)))
 all: $(NAME)
 
 $(NAME): $(OFILES) $(DFILES)
-	@$(CC) $(OFILES) -o $(NAME)
+	@$(CC) $(OFILES) $(CFLAGS) -o $(NAME) 
 	@echo "\033[1;32mCREATE PROGRAM: philo\033[0m"
 
 O_D_FILES/%.o: %.c | O_D_FILES

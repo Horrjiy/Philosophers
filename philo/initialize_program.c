@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 15:17:03 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/09 20:10:53 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/04/14 17:05:14 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@ bool	ft_init_threads(t_data *data, t_list *philos)
 			return (free_list(&philos), false);
 		temp = temp->next;
 	}
-	printf("shit\n");
-	if (pthread_create(&(data->monitor), NULL, ft_monitorroutine, philos) != 0)
+	if (pthread_create(&(data->monitor), NULL, ft_monitorroutine, philos->head) != 0)
 			return (free_list(&philos), false);
 	return (true);
 }

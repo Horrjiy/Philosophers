@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:22:54 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/07 16:51:32 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/04/15 12:11:12 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int argc, char *argv[])
 		return (free_list(&philos), 12);
 	if (!ft_init_threads(&data, philos))
 		return (free_list(&philos), 2);
-	free_list(&philos);
 	pthread_join(data.monitor, NULL);
+	free_list(&philos);
 	return (0);
 }

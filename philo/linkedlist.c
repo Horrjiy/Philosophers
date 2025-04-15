@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 17:31:58 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/10 13:22:30 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/04/15 12:06:22 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,11 @@ t_list	*ft_lastnode(t_list *a)
 void	free_list(t_list **philos)
 {
 	t_list	*temp;
+	pthread_mutex_t		*tempprint;
 
+	tempprint = (*philos)->mprint;
 	if (!philos || !(*philos))
 		return ;
-	if ((*philos)->mprint)
-		pthread_mutex_destroy((*philos)->mprint);
 	while (*philos)
 	{
 		temp = (*philos)->next;
@@ -88,6 +88,8 @@ void	free_list(t_list **philos)
 		free(*philos);
 		*philos = temp;
 	}
+	if (tempprint)
+	pthread_mutex_destroy(tempprint);
 }
 
 void	ft_node_addback(t_list **a, t_list *node)
