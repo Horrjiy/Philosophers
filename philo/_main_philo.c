@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:22:54 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/15 16:21:05 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/04/15 17:47:33 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	free_list(t_list **philos)
 			pthread_join(temp->thread, NULL);
 		temp = temp->next;
 	}
-	while(*philos)
+	while (*philos)
 	{
 		temp = (*philos)->next;
 		pthread_mutex_destroy(&((*philos)->fork));

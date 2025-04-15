@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:24:25 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/15 15:27:18 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/04/15 17:49:45 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <unistd.h>
-
-# define LEFT 1
-# define RIGHT 0
 
 typedef struct s_list	t_list;
 
@@ -47,21 +44,27 @@ typedef struct s_data
 	struct s_list		*head;
 }						t_data;
 
-long					ft_ms(long starttime);
-long					ft_now(void);
-bool					ft_sleep(t_list *philos, long time_ms);
+// -~--~--~--~- functions -~--~--~--~- //
+
 void					ft_input_error(void);
 bool					ft_check_valid_args(int argc, char **argv,
 							t_data *data);
+
+long					ft_ms(long starttime);
+long					ft_now(void);
+bool					ft_sleep(t_list *philos, long time_ms);
+
 bool					ft_create_list(t_data *data, t_list **philos);
+bool					ft_init_threads(t_data *data, t_list *philos);
 void					*ft_threadroutine(void *vptr);
 void					*ft_monitorroutine(void *vptr);
-bool					ft_init_threads(t_data *data, t_list *philos);
-int						ft_deadcheck(t_list *philos, pthread_mutex_t *tempprint);
+int						ft_deadcheck(t_list *philos,
+							pthread_mutex_t *tempprint);
+
 void					print_s(t_list *philos, int status);
 void					print_dead(t_list *philos, pthread_mutex_t *tempprint);
 
-// -~--~--~--~- list -~--~--~--~- //
+// -~--~--~--~- list && list functions -~--~--~--~- //
 
 struct					s_list
 {
@@ -85,6 +88,7 @@ struct					s_list
 t_list					*ft_init_node(int index, t_data *data);
 int						ft_listlen(t_list *a);
 t_list					*ft_lastnode(t_list *a);
+void					free_list_simple(t_list **philos);
 void					free_list(t_list **philos);
 void					ft_node_addback(t_list **a, t_list *node);
 

@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 15:23:31 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/15 16:03:12 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/04/15 17:46:56 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,4 +121,3 @@ void	*ft_threadroutine(void *vptr)
 	}
 	return (NULL);
 }
-
