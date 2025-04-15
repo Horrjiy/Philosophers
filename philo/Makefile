@@ -6,14 +6,16 @@
 #    By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/04 17:14:53 by mpoplow           #+#    #+#              #
-#    Updated: 2025/04/14 17:37:58 by mpoplow          ###   ########.fr        #
+#    Updated: 2025/04/15 16:26:36 by mpoplow          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	:= philo
 
-CFLAGS	:= -Wall -Wextra -Werror 
-#-lpthread
+CFLAGS	:= -Wall -Wextra -Werror
+
+# extra debug flag for valgrind:
+# -lpthread
 
 # *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*	#
 # 	FILES																		#

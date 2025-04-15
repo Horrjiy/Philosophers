@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:24:25 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/14 16:43:19 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/04/15 15:27:18 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ bool					ft_create_list(t_data *data, t_list **philos);
 void					*ft_threadroutine(void *vptr);
 void					*ft_monitorroutine(void *vptr);
 bool					ft_init_threads(t_data *data, t_list *philos);
-int						ft_deadcheck(t_list *philos);
+int						ft_deadcheck(t_list *philos, pthread_mutex_t *tempprint);
 void					print_s(t_list *philos, int status);
-void					print_lock(t_list *philos, char *str);
+void					print_dead(t_list *philos, pthread_mutex_t *tempprint);
 
 // -~--~--~--~- list -~--~--~--~- //
 

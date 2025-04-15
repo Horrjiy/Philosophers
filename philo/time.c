@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:51:45 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/14 16:55:43 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/04/15 14:04:19 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,6 @@ bool	ft_sleep(t_list *philos, long time_ms)
 	long	start;
 
 	start = ft_now();
-	pthread_mutex_lock(&(philos->access));
-	if (philos->dead == true)
-		return (pthread_mutex_unlock(&(philos->access)), DEAD);
-	pthread_mutex_unlock(&(philos->access));
 	while (ft_now() - start < time_ms)
 	{
 		pthread_mutex_lock(&(philos->access));
@@ -45,5 +41,5 @@ bool	ft_sleep(t_list *philos, long time_ms)
 		pthread_mutex_unlock(&(philos->access));
 		usleep(500);
 	}
-	return(true);
+	return (true);
 }

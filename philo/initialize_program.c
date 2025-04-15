@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 15:17:03 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/14 17:05:14 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/04/15 16:20:10 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ bool	ft_create_list(t_data *data, t_list **philos)
 {
 	int		i;
 	t_list	*temp;
-	
+
 	if (pthread_mutex_init(&data->mprint, NULL) != 0)
-	return (false);
+		return (false);
 	data->head = NULL;
 	*philos = ft_init_node(1, data);
 	if (!(*philos))
-		return (false);
+		return (pthread_mutex_destroy(&data->mprint), false);
 	(*philos)->head = *philos;
 	data->head = *philos;
 	i = 2;
@@ -30,7 +30,7 @@ bool	ft_create_list(t_data *data, t_list **philos)
 	{
 		temp = ft_init_node(i, data);
 		if (!temp)
-			return (false);
+			return (pthread_mutex_destroy(&data->mprint), false);
 		ft_node_addback(philos, temp);
 		i++;
 	}
@@ -45,10 +45,11 @@ bool	ft_init_threads(t_data *data, t_list *philos)
 	while (temp)
 	{
 		if (pthread_create(&temp->thread, NULL, ft_threadroutine, temp) != 0)
-			return (free_list(&philos), false);
+			return (false);
 		temp = temp->next;
 	}
-	if (pthread_create(&(data->monitor), NULL, ft_monitorroutine, philos->head) != 0)
-			return (free_list(&philos), false);
+	if (pthread_create(&(data->monitor), NULL, ft_monitorroutine,
+			philos->head) != 0)
+		return (false);
 	return (true);
 }
