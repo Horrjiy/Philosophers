@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 15:27:46 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/15 15:28:15 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/04/22 15:38:47 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	print_s(t_list *philos, int status)
 		pthread_mutex_unlock(&(philos->access));
 		return ;
 	}
-	pthread_mutex_unlock(&(philos->access));
 	if (status == TAKEF)
 		printf("%ld %d has taken a fork\n", ft_ms(philos->starttime) - 15,
 			index);
@@ -35,8 +34,7 @@ void	print_s(t_list *philos, int status)
 		printf("%ld %d is sleeping\n", ft_ms(philos->starttime) - 15, index);
 	else if (status == THINK)
 		printf("%ld %d is thinking\n", ft_ms(philos->starttime) - 15, index);
-	else if (status == DEAD)
-		printf("%ld %d died\n", ft_ms(philos->starttime) - 15, index);
+	pthread_mutex_unlock(&(philos->access));
 	pthread_mutex_unlock(philos->mprint);
 }
 

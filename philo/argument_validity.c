@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:57:06 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/04 16:19:34 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/04/22 15:31:49 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static bool	ft_isdigit_str(char *str)
 
 static int	ft_atoi(char *str)
 {
-	int	num;
-	int	i;
+	size_t	num;
+	int		i;
 
 	num = 0;
 	i = num;
@@ -39,7 +39,22 @@ static int	ft_atoi(char *str)
 		num += str[i] - '0';
 		i++;
 	}
-	return (num);
+	if (num > 2147483647)
+		return (0);
+	return ((int)num);
+}
+
+static void	valid_args_helper(int argc, char **argv, t_data *data)
+{
+	data->philnum = ft_atoi(argv[1]);
+	data->time_die = ft_atoi(argv[2]);
+	data->time_eat = ft_atoi(argv[3]);
+	data->time_sleep = ft_atoi(argv[4]);
+	if (argc == 6)
+		data->eatnum = ft_atoi(argv[5]);
+	else
+		data->eatnum = -1;
+	return ;
 }
 
 bool	ft_check_valid_args(int argc, char **argv, t_data *data)
@@ -55,14 +70,10 @@ bool	ft_check_valid_args(int argc, char **argv, t_data *data)
 	}
 	if (argc == 5 || argc == 6)
 	{
-		data->philnum = ft_atoi(argv[1]);
-		data->time_die = ft_atoi(argv[2]);
-		data->time_eat = ft_atoi(argv[3]);
-		data->time_sleep = ft_atoi(argv[4]);
-		if (argc == 6)
-			data->eatnum = ft_atoi(argv[5]);
-		else
-			data->eatnum = -1;
+		valid_args_helper(argc, argv, data);
+		if (!data->philnum || !data->time_die || !data->time_eat
+			|| !data->time_sleep || data->eatnum == 0)
+			return (false);
 	}
 	else
 		return (false);
